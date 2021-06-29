@@ -61,9 +61,50 @@ void Error_Handler(void);
 #define RTC_N_PREDIV_S 10
 #define RTC_PREDIV_S ((1<<RTC_N_PREDIV_S)-1)
 #define RTC_PREDIV_A ((1<<(15-RTC_N_PREDIV_S))-1)
-#define LPUART_BAUDRATE 9600
+#define UART_BAUDRATE 9600
 
 /* Pin mapping */
+
+#ifdef CANARIN_4
+#define USARTx                           USART1
+
+/* Definition for UARTx clock resources */
+#define DMAx_CLK_ENABLE()                __HAL_RCC_DMA1_CLK_ENABLE()
+#define DMAMUX_CLK_ENABLE()              __HAL_RCC_DMAMUX1_CLK_ENABLE()
+
+/* Definition for USARTx's DMA Request */
+#define USARTx_TX_DMA_REQUEST             DMA_REQUEST_3
+/* Definition for USARTx's DMA */
+#define USARTx_TX_DMA_CHANNEL             DMA1_Channel4
+
+/* Definition for USARTx's NVIC */
+#define USARTx_DMA_TX_IRQn                DMA1_Channel4_5_6_7_IRQn
+#define USARTx_DMA_TX_IRQHandler          DMA1_Channel4_5_6_7_IRQHandler
+#define USARTx_IRQn                       USART1_IRQn
+#define USARTx_IRQHandler                 USART1_IRQHandler
+
+#define USARTx_Priority 0
+#define USARTx_DMA_Priority 0
+
+#define USARTx_RX_Pin GPIO_PIN_10
+#define USARTx_RX_GPIO_Port GPIOA
+#define USARTx_TX_Pin GPIO_PIN_9
+#define USARTx_TX_GPIO_Port GPIOA
+
+#define USARTx_RX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
+#define USARTx_TX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
+
+#define USARTx_CLK_ENABLE()              __HAL_RCC_USART1_CLK_ENABLE()
+#define USARTx_CLK_DISABLE()             __HAL_RCC_USART1_CLK_DISABLE()
+
+#define USARTx_FORCE_RESET()             __HAL_RCC_USART1_FORCE_RESET()
+#define USARTx_RELEASE_RESET()           __HAL_RCC_USART1_RELEASE_RESET()
+
+#define USARTx_TX_AF                     GPIO_AF4_USART1
+#define USARTx_RX_AF                     GPIO_AF4_USART1
+
+#else
+#define USARTx                           LPUART1
 
 /* Definition for UARTx clock resources */
 #define DMAx_CLK_ENABLE()                __HAL_RCC_DMA1_CLK_ENABLE()
@@ -77,6 +118,8 @@ void Error_Handler(void);
 /* Definition for USARTx's NVIC */
 #define USARTx_DMA_TX_IRQn                DMA1_Channel4_5_6_7_IRQn
 #define USARTx_DMA_TX_IRQHandler          DMA1_Channel4_5_6_7_IRQHandler
+#define USARTx_IRQn                       LPUART1_IRQn
+#define USARTx_IRQHandler                 LPUART1_IRQHandler
 
 #define USARTx_Priority 0
 #define USARTx_DMA_Priority 0
@@ -90,9 +133,16 @@ void Error_Handler(void);
 #define USARTx_RX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
 #define USARTx_TX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
 
+#define USARTx_CLK_ENABLE()              __HAL_RCC_LPUART1_CLK_ENABLE()
+#define USARTx_CLK_DISABLE()             __HAL_RCC_LPUART1_CLK_DISABLE()
+
+#define USARTx_FORCE_RESET()             __HAL_RCC_LPUART1_FORCE_RESET()
+#define USARTx_RELEASE_RESET()           __HAL_RCC_LPUART1_RELEASE_RESET()
+
 #define USARTx_TX_AF                     GPIO_AF6_LPUART1
 #define USARTx_RX_AF                     GPIO_AF6_LPUART1
 
+#endif
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

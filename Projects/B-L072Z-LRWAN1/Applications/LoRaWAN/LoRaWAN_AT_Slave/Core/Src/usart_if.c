@@ -111,8 +111,8 @@ UTIL_ADV_TRACE_Status_t vcom_DeInit(void)
 
   /* USER CODE END vcom_DeInit_1 */
   /* ##-1- Reset peripherals ################################################## */
-  __HAL_RCC_LPUART1_FORCE_RESET();
-  __HAL_RCC_LPUART1_RELEASE_RESET();
+  USARTx_FORCE_RESET();
+  USARTx_RELEASE_RESET();
 
   /* ##-2- MspDeInit ################################################## */
   HAL_UART_MspDeInit(&UartHandle);

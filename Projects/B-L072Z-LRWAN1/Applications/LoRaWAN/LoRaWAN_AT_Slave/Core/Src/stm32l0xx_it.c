@@ -241,7 +241,7 @@ void EXTI4_15_IRQHandler(void)
 #endif
 }
 
-void DMA1_Channel4_5_6_7_IRQHandler(void)
+void USARTx_DMA_TX_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel4_5_6_7_IRQn 0 */
 
@@ -255,7 +255,7 @@ void DMA1_Channel4_5_6_7_IRQHandler(void)
 /**
   * @brief This function handles LPUART1 Interrupt.
   */
-void LPUART1_IRQHandler(void)
+void USARTx_IRQHandler(void)
 {
   /* USER CODE BEGIN LPUART1_IRQn 0 */
 

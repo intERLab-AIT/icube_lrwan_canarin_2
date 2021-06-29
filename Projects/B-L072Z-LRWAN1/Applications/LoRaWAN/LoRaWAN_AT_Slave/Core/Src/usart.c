@@ -31,9 +31,8 @@ DMA_HandleTypeDef hdma_lpuart1_tx;
 
 void MX_LPUART1_Init(void)
 {
-
-  hlpuart1.Instance = LPUART1;
-  hlpuart1.Init.BaudRate = LPUART_BAUDRATE;
+  hlpuart1.Instance = USARTx;
+  hlpuart1.Init.BaudRate = UART_BAUDRATE;
   hlpuart1.Init.WordLength = UART_WORDLENGTH_8B;
   hlpuart1.Init.StopBits = UART_STOPBITS_1;
   hlpuart1.Init.Parity = UART_PARITY_NONE;
@@ -51,24 +50,31 @@ void HAL_UART_MspInit(UART_HandleTypeDef *uartHandle)
 
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
-  if (uartHandle->Instance == LPUART1)
+  if (uartHandle->Instance == USARTx)
   {
     /* USER CODE BEGIN LPUART1_MspInit 0 */
 
     /* USER CODE END LPUART1_MspInit 0 */
     /** Initializes the peripherals clocks
       */
+#ifdef CANARIN_4
+    PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART1;
+    PeriphClkInitStruct.Usart1ClockSelection = RCC_USART1CLKSOURCE_HSI;
+#else
     PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LPUART1;
     PeriphClkInitStruct.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_HSI;
+#endif
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
     {
       Error_Handler();
     }
 
-    /* LPUART1 clock enable */
-    __HAL_RCC_LPUART1_CLK_ENABLE();
+    USARTx_CLK_ENABLE();
 
-    __HAL_RCC_GPIOA_CLK_ENABLE();
+    /* LPUART1 clock enable */
+    USARTx_RX_GPIO_CLK_ENABLE();
+    USARTx_TX_GPIO_CLK_ENABLE();
+
     /**LPUART1 GPIO Configuration
     PA3     ------> LPUART1_RX
     PA2     ------> LPUART1_TX
@@ -77,14 +83,14 @@ void HAL_UART_MspInit(UART_HandleTypeDef *uartHandle)
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF6_LPUART1;
+    GPIO_InitStruct.Alternate = USARTx_RX_AF;
     HAL_GPIO_Init(USARTx_RX_GPIO_Port, &GPIO_InitStruct);
 
     GPIO_InitStruct.Pin = USARTx_TX_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF6_LPUART1;
+    GPIO_InitStruct.Alternate = USARTx_TX_AF;
     HAL_GPIO_Init(USARTx_TX_GPIO_Port, &GPIO_InitStruct);
 
     /* LPUART1 DMA Init */
@@ -107,8 +113,8 @@ void HAL_UART_MspInit(UART_HandleTypeDef *uartHandle)
     __HAL_LINKDMA(uartHandle, hdmatx, hdma_lpuart1_tx);
 
     /* LPUART1 interrupt Init */
-    HAL_NVIC_SetPriority(LPUART1_IRQn, USARTx_DMA_Priority, 0);
-    HAL_NVIC_EnableIRQ(LPUART1_IRQn);
+    HAL_NVIC_SetPriority(USARTx_IRQn, USARTx_Priority, 0);
+    HAL_NVIC_EnableIRQ(USARTx_IRQn);
     /* USER CODE BEGIN LPUART1_MspInit 1 */
 
     /* USER CODE END LPUART1_MspInit 1 */
@@ -118,13 +124,13 @@ void HAL_UART_MspInit(UART_HandleTypeDef *uartHandle)
 void HAL_UART_MspDeInit(UART_HandleTypeDef *uartHandle)
 {
 
-  if (uartHandle->Instance == LPUART1)
+  if (uartHandle->Instance == USARTx)
   {
     /* USER CODE BEGIN LPUART1_MspDeInit 0 */
 
     /* USER CODE END LPUART1_MspDeInit 0 */
     /* Peripheral clock disable */
-    __HAL_RCC_LPUART1_CLK_DISABLE();
+	USARTx_CLK_DISABLE();
 
     /**LPUART1 GPIO Configuration
     PA3     ------> LPUART1_RX
@@ -136,7 +142,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *uartHandle)
     HAL_DMA_DeInit(uartHandle->hdmatx);
 
     /* LPUART1 interrupt Deinit */
-    HAL_NVIC_DisableIRQ(LPUART1_IRQn);
+    HAL_NVIC_DisableIRQ(USARTx_IRQn);
     /* USER CODE BEGIN LPUART1_MspDeInit 1 */
 
     /* USER CODE END LPUART1_MspDeInit 1 */
