@@ -493,6 +493,28 @@ static const struct ATCommand_s ATCommand[] =
     .set = AT_return_error,
     .run = AT_return_error,
   },
+
+  {
+    .string = AT_NWKSKEY,
+    .size_string = sizeof(AT_NWKSKEY) - 1,
+#ifndef NO_HELP
+    .help_string = "AT"AT_NWKSKEY"=<XX:XX:XX:XX:XX:XX:XX:XX><CR>. Get or Set the Network Session Key\r\n",
+#endif /* !NO_HELP */
+    .get = AT_NwkSKey_get,
+    .set = AT_NwkSKey_set,
+    .run = AT_return_error,
+  },
+
+  {
+    .string = AT_APPSKEY,
+    .size_string = sizeof(AT_APPSKEY) - 1,
+#ifndef NO_HELP
+    .help_string = "AT"AT_APPSKEY"=<XX:XX:XX:XX:XX:XX:XX:XX><CR>. Get or Set the Application Session Key\r\n",
+#endif /* !NO_HELP */
+    .get = AT_AppSKey_get,
+    .set = AT_AppSKey_set,
+    .run = AT_return_error,
+  },
 };
 
 static char circBuffer[CIRC_BUFF_SIZE];
