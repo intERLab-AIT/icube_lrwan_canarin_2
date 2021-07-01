@@ -1977,41 +1977,6 @@ static int32_t isHex(char Char)
 
 /* USER CODE BEGIN PrFD */
 
-ATEerror_t AT_NwkSKey_get(const char *param)
-{
-  return AT_OK;   
-}
-
-/**
-  * @brief  Set the Network Session Key
-  * @param  String pointing to provided ADR setting
-  * @retval AT_OK if OK, or an appropriate AT_xxx error code
-  */
-ATEerror_t AT_NwkSKey_set(const char *param)
-{
-  return AT_OK;   
-}
-
-/**
-  * @brief  Get the Application Session Key
-  * @param  String pointing to provided param
-  * @retval AT_OK if OK, or an appropriate AT_xxx error code
-  */
-ATEerror_t AT_AppSKey_get(const char *param)
-{
-  return AT_OK;   
-}
-
-/**
-  * @brief  Set the Application Session Key
-  * @param  String pointing to provided ADR setting
-  * @retval AT_OK if OK, or an appropriate AT_xxx error code
-  */
-ATEerror_t AT_AppSKey_set(const char *param)
-{
-  return AT_OK;   
-}
-
 /* USER CODE END PrFD */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

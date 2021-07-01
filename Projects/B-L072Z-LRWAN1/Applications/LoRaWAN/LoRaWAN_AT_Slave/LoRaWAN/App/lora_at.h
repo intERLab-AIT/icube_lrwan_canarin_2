@@ -120,10 +120,6 @@ typedef enum eATEerror
 
 /* USER CODE BEGIN EM */
 
-/* ABP parameters */
-#define AT_NWKSKEY    "+NWKSKEY"
-#define AT_APPSKEY    "+APPSKEY"
-
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -535,34 +531,6 @@ ATEerror_t AT_write_register(const char *param);
 ATEerror_t AT_read_register(const char *param);
 
 /* USER CODE BEGIN EFP */
-
-/**
-  * @brief  Get the Network Session Key
-  * @param  String pointing to provided param
-  * @retval AT_OK if OK, or an appropriate AT_xxx error code
-  */
-ATEerror_t AT_NwkSKey_get(const char *param);
-
-/**
-  * @brief  Set the Network Session Key
-  * @param  String pointing to provided ADR setting
-  * @retval AT_OK if OK, or an appropriate AT_xxx error code
-  */
-ATEerror_t AT_NwkSKey_set(const char *param);
-
-/**
-  * @brief  Get the Application Session Key
-  * @param  String pointing to provided param
-  * @retval AT_OK if OK, or an appropriate AT_xxx error code
-  */
-ATEerror_t AT_AppSKey_get(const char *param);
-
-/**
-  * @brief  Set the Application Session Key
-  * @param  String pointing to provided ADR setting
-  * @retval AT_OK if OK, or an appropriate AT_xxx error code
-  */
-ATEerror_t AT_AppSKey_set(const char *param);
 
 /* USER CODE END EFP */
 
