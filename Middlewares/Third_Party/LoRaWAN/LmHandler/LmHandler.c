@@ -957,7 +957,15 @@ int32_t LmHandlerGetDevAddr(uint32_t *devAddr)
 
 int32_t LmHandlerSetDevAddr(uint32_t devAddr)
 {
-#if ( STATIC_DEVICE_ADDRESS != 1 )
+/* In Non static device address, joining overwrites the devaddr with a
+ * unique devaddr and its impossible to change it afterwards.
+ * In static device address, changing devaddr is prohobited.
+ * Canarin requires devaddr to be configurable; allow devaddr to be 
+ * configured when device address is static.
+ * */
+
+/* #if ( STATIC_DEVICE_ADDRESS != 1 ) */
+#if 1
   /* Not yet joined */
   if (LmHandlerJoinStatus() != LORAMAC_HANDLER_SET)
   {
