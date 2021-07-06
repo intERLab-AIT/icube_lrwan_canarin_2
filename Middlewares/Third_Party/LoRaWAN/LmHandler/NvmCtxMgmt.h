@@ -88,6 +88,17 @@ NvmCtxMgmtStatus_t NvmCtxMgmtStore(void);
 NvmCtxMgmtStatus_t NvmCtxMgmtRestore(void);
 
 
+/*!
+ * \brief App level callbacks.
+ *
+ * \param [in] adrNext Pointer to the function parameters.
+ *
+ */
+void NvmCtxRegisterAppCallback(void (*eventCb)(LoRaMacNvmCtxModule_t module), 
+    NvmCtxMgmtStatus_t (*storeCb)(void));
+
+
+
 #ifdef __cplusplus
 }
 #endif

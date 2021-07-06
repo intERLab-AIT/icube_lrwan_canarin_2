@@ -970,7 +970,15 @@ int32_t LmHandlerSetDevAddr(uint32_t devAddr)
   if (LmHandlerJoinStatus() != LORAMAC_HANDLER_SET)
   {
     CommissioningParams.DevAddr = devAddr;
-    return LmHandlerConfigure(&LmHandlerParams);
+    LmHandlerErrorStatus_t status = LmHandlerConfigure(&LmHandlerParams);
+
+    /* Set it in the Mac level */
+    MibRequestConfirm_t mibReq;
+    mibReq.Type = MIB_DEV_ADDR;
+    mibReq.Param.DevAddr = devAddr;
+    LoRaMacMibSetRequestConfirm(&mibReq);
+
+    return status;
   }
   else
   {
@@ -1314,6 +1322,62 @@ int32_t LmHandlerGetBeaconState(BeaconState_t *beaconState)
   return LORAMAC_HANDLER_ERROR;
 #endif /* LORAMAC_CLASSB_ENABLED */
 }
+
+
+int32_t LmHandlerRestoreContext(LoRaMacCtxs_t *MacContexts)
+{
+  MibRequestConfirm_t mibReq;
+  mibReq.Type = MIB_NVM_CTXS;
+  mibReq.Param.Contexts = MacContexts;
+
+  if (LoRaMacMibSetRequestConfirm(&mibReq) != LORAMAC_STATUS_OK)
+  {
+    return LORAMAC_HANDLER_ERROR;
+  }
+
+
+  if (MacContexts->MacNvmCtx != NULL)
+  {
+	memset1((void *)&mibReq, 0, sizeof(MibRequestConfirm_t));
+    mibReq.Type = MIB_DEV_ADDR;
+    if (LoRaMacMibGetRequestConfirm(&mibReq) != LORAMAC_STATUS_OK)
+    {
+    	return LORAMAC_HANDLER_ERROR;
+    }
+    CommissioningParams.DevAddr = mibReq.Param.DevAddr;
+
+	memset1((void *)&mibReq, 0, sizeof(MibRequestConfirm_t));
+    mibReq.Type = MIB_NET_ID;
+    if (LoRaMacMibGetRequestConfirm(&mibReq) != LORAMAC_STATUS_OK)
+    {
+    	return LORAMAC_HANDLER_ERROR;
+    }
+    CommissioningParams.NetworkId = mibReq.Param.NetID;
+  }
+
+  if (MacContexts->SecureElementNvmCtx != NULL)
+  {
+	memset1((void *)&mibReq, 0, sizeof(MibRequestConfirm_t));
+    mibReq.Type = MIB_JOIN_EUI;
+    if (LoRaMacMibGetRequestConfirm(&mibReq) != LORAMAC_STATUS_OK)
+    {
+    	return LORAMAC_HANDLER_ERROR;
+    }
+    UTIL_MEM_cpy_8(CommissioningParams.JoinEui, mibReq.Param.JoinEui, SE_EUI_SIZE);
+
+	memset1((void *)&mibReq, 0, sizeof(MibRequestConfirm_t));
+    mibReq.Type = MIB_NET_ID;
+    if (LoRaMacMibGetRequestConfirm(&mibReq) != LORAMAC_STATUS_OK)
+    {
+    	return LORAMAC_HANDLER_ERROR;
+    }
+    UTIL_MEM_cpy_8(CommissioningParams.DevEui, mibReq.Param.DevEui, SE_EUI_SIZE);
+  }
+
+  CtxRestoreDone = true;
+  return LORAMAC_HANDLER_SUCCESS;
+}
+
 
 /* Private  functions ---------------------------------------------------------*/
 static LmHandlerErrorStatus_t LmHandlerDeviceTimeReq(void)

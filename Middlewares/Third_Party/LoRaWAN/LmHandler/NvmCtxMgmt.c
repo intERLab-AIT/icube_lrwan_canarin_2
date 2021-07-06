@@ -119,6 +119,8 @@ typedef union uLoRaMacCtxsUpdateInfo
 /* Private macro -------------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+static void (*NvmCtxMgmtEventAppCallback)(LoRaMacNvmCtxModule_t module);
+NvmCtxMgmtStatus_t (*NvmCtxMgmtStoreAppCallback)(void);
 #if ( CONTEXT_MANAGEMENT_ENABLED == 1 )
 static LoRaMacCtxUpdateStatus_t CtxUpdateStatus = { .Value = 0 };
 
@@ -137,8 +139,22 @@ static NvmmDataBlock_t ClassBNvmCtxDataBlock;
 #endif /* CONTEXT_MANAGEMENT_ENABLED == 1 */
 
 /* Exported functions ---------------------------------------------------------*/
+
+
+void NvmCtxRegisterAppCallback(void (*eventCb)(LoRaMacNvmCtxModule_t module), 
+    NvmCtxMgmtStatus_t (*storeCb)(void))
+{
+    NvmCtxMgmtEventAppCallback = eventCb;
+    NvmCtxMgmtStoreAppCallback = storeCb;
+}
+
 void NvmCtxMgmtEvent(LoRaMacNvmCtxModule_t module)
 {
+  if (NvmCtxMgmtEventAppCallback != NULL)
+  {
+    NvmCtxMgmtEventAppCallback(module);
+  }
+
 #if ( CONTEXT_MANAGEMENT_ENABLED == 1 )
   switch (module)
   {
@@ -187,6 +203,10 @@ void NvmCtxMgmtEvent(LoRaMacNvmCtxModule_t module)
 
 NvmCtxMgmtStatus_t NvmCtxMgmtStore(void)
 {
+  if (NvmCtxMgmtStoreAppCallback != NULL)
+  {
+    NvmCtxMgmtStoreAppCallback();
+  }
 #if ( CONTEXT_MANAGEMENT_ENABLED == 1 )
   /* Read out the contexts lengths and pointers */
   MibRequestConfirm_t mibReq;

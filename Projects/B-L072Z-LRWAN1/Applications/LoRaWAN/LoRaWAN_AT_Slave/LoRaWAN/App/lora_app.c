@@ -32,6 +32,7 @@
 #include "LmHandler.h"
 #include "lora_command.h"
 #include "lora_at.h"
+#include "can_context.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -177,6 +178,9 @@ void LoRaWAN_Init(void)
   LED_Init(LED_RED1);
   LED_Init(LED_RED2);
   CMD_Init(CmdProcessNotify);
+
+  /* Register Nvm Handler */
+  NvmCtxRegisterAppCallback(CanCtxMgmtEvent, NULL);
 
   /* Get LoRa APP version*/
   APP_LOG(TS_OFF, VLEVEL_M, "APP_VERSION:        V%X.%X.%X\r\n",

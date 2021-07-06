@@ -77,6 +77,11 @@
 			<locationURI>PARENT-2-PROJECT_LOC/LoRaWAN/App/app_lorawan.c</locationURI>
 		</link>
 		<link>
+			<name>Application/App/can_context.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/LoRaWAN/App/can_context.c</locationURI>
+		</link>
+		<link>
 			<name>Application/App/lora_app.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/LoRaWAN/App/lora_app.c</locationURI>

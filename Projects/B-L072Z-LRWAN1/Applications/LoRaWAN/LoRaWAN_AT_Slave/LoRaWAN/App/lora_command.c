@@ -57,7 +57,7 @@ struct ATCommand_s
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
-#define CMD_SIZE                        540
+#define CMD_SIZE                        1024
 #define CIRC_BUFF_SIZE                  8
 #define HELP_DISPLAY_FLUSH_DELAY        100
 
@@ -491,6 +491,28 @@ static const struct ATCommand_s ATCommand[] =
 #endif /* !NO_HELP */
     .get = AT_bat_get,
     .set = AT_return_error,
+    .run = AT_return_error,
+  },
+
+  {
+    .string = AT_CTX,
+    .size_string = sizeof(AT_CTX) - 1,
+#ifndef NO_HELP
+    .help_string = "AT"AT_CTX"=<XX:XX:XX:XX:XX:XX:XX:XX><CR>. Get or Set the Context\r\n",
+#endif /* !NO_HELP */
+    .get = AT_Context_get,
+    .set = AT_Context_set,
+    .run = AT_return_error,
+  },
+
+  {
+    .string = AT_FCNT,
+    .size_string = sizeof(AT_FCNT) - 1,
+#ifndef NO_HELP
+    .help_string = "AT"AT_FCNT"=<D:D><CR>. Get or Set the Frame Counter\r\n",
+#endif /* !NO_HELP */
+    .get = AT_FrameCounter_get,
+    .set = AT_FrameCounter_set,
     .run = AT_return_error,
   },
 };

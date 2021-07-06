@@ -31,6 +31,7 @@
 #include "utilities_def.h"
 #include "radio.h"
 #include "lora_info.h"
+#include "can_context.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -1976,6 +1977,74 @@ static int32_t isHex(char Char)
 }
 
 /* USER CODE BEGIN PrFD */
+
+ATEerror_t AT_Context_get(const char *param)
+{
+  /* Request context from lorawan */
+  CanCtxMgmtStore();
+
+  return AT_OK;
+}
+
+ATEerror_t AT_Context_set(const char *param)
+{
+  const char *buf = param;
+  size_t bufSize = strlen(param);
+  unsigned int module;
+  size_t dataSize;
+  if (2 != tiny_sscanf(param, "%u:%u:", &module, &dataSize))
+  {
+    return AT_PARAM_ERROR;
+  }
+
+  char *hexData = malloc(dataSize * 2);
+  uint8_t *data = malloc(dataSize);
+
+  int k = 0;
+  int j = 0;
+  char *ptr = buf;
+  /* skip two ':' */
+  while(k < 2)
+  {
+    if (*ptr == ':')
+    {
+      k++;
+    }
+    j++;
+    ptr++;
+  }
+
+  if (dataSize != (bufSize - j)/2)
+  {
+    free((void *)hexData);
+    free((void *)data);
+    return AT_PARAM_ERROR;
+  }
+
+  memcpy(hexData, ptr, dataSize * 2);
+  stringToData(hexData, data, dataSize);
+
+  if (CanCtxMgmtRestore(module, data, dataSize) == NVMCTXMGMT_STATUS_FAIL)
+  {
+    free((void *)hexData);
+    free((void *)data);
+    return AT_ERROR;
+  }
+
+  free((void *)hexData);
+  free((void *)data);
+  return AT_OK;
+}
+
+ATEerror_t AT_FrameCounter_get(const char *param)
+{
+  return AT_OK;
+}
+
+ATEerror_t AT_FrameCounter_set(const char *param)
+{
+  return AT_OK;
+}
 
 /* USER CODE END PrFD */
 

@@ -120,6 +120,9 @@ typedef enum eATEerror
 
 /* USER CODE BEGIN EM */
 
+#define AT_CTX        "+CTX"
+#define AT_FCNT       "+FCNT"
+
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -531,6 +534,34 @@ ATEerror_t AT_write_register(const char *param);
 ATEerror_t AT_read_register(const char *param);
 
 /* USER CODE BEGIN EFP */
+
+/**
+  * @brief  Get the Context Key
+  * @param  String pointing to provided param
+  * @retval AT_OK if OK, or an appropriate AT_xxx error code
+  */
+ATEerror_t AT_Context_get(const char *param);
+
+/**
+  * @brief  Set the Context Key
+  * @param  String pointing to provided ADR setting
+  * @retval AT_OK if OK, or an appropriate AT_xxx error code
+  */
+ATEerror_t AT_Context_set(const char *param);
+
+/**
+  * @brief  Get the Frame Counter
+  * @param  String pointing to provided param
+  * @retval AT_OK if OK, or an appropriate AT_xxx error code
+  */
+ATEerror_t AT_FrameCounter_get(const char *param);
+
+/**
+  * @brief  Set the Frame Counter
+  * @param  String pointing to provided ADR setting
+  * @retval AT_OK if OK, or an appropriate AT_xxx error code
+  */
+ATEerror_t AT_FrameCounter_set(const char *param);
 
 /* USER CODE END EFP */
 

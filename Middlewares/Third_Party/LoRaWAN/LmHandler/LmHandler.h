@@ -602,6 +602,16 @@ int32_t LmHandlerSetPingPeriodicity(uint8_t pingPeriodicity);
  */
 int32_t LmHandlerGetBeaconState(BeaconState_t *beaconState);
 
+/*!
+ * \brief Restore Context
+ *
+ * \param [in] contexts LoRa NVM Contexts 
+ *
+ * \retval -1 LORAMAC_HANDLER_ERROR
+ *          0 LORAMAC_HANDLER_SUCCESS
+ */
+int32_t LmHandlerRestoreContext(LoRaMacCtxs_t *contexts);
+
 #ifdef __cplusplus
 }
 #endif
