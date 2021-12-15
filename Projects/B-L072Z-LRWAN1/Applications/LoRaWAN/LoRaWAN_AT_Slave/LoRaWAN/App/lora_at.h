@@ -120,8 +120,12 @@ typedef enum eATEerror
 
 /* USER CODE BEGIN EM */
 
+// context
 #define AT_CTX        "+CTX"
+// frame counters, unimplimented
 #define AT_FCNT       "+FCNT"
+// network joing status
+#define AT_NJS        "+NJS"
 
 /* USER CODE END EM */
 
@@ -563,6 +567,12 @@ ATEerror_t AT_FrameCounter_get(const char *param);
   */
 ATEerror_t AT_FrameCounter_set(const char *param);
 
+/**
+  * @brief  Get the Network Join Status
+  * @param  String pointing to provided param
+  * @retval AT_OK if OK, or an appropriate AT_xxx error code
+  */
+ATEerror_t AT_NetworkJoinStatus_get(const char *param);
 /* USER CODE END EFP */
 
 #ifdef __cplusplus

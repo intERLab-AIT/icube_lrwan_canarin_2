@@ -181,6 +181,7 @@ void LoRaWAN_Init(void)
 
   /* Register Nvm Handler */
   NvmCtxRegisterAppCallback(CanCtxMgmtEvent, NULL);
+  APP_LOG(TS_OFF, VLEVEL_M, "Interlab - LBT enabled -150 dB 20211215\r\n");
 
   /* Get LoRa APP version*/
   APP_LOG(TS_OFF, VLEVEL_M, "APP_VERSION:        V%X.%X.%X\r\n",

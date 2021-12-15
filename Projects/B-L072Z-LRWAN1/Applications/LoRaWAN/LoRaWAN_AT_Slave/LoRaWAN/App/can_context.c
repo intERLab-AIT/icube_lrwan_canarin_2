@@ -185,7 +185,7 @@ NvmCtxMgmtStatus_t CanCtxMgmtStore(void)
     print_data(MacContexts->ConfirmQueueNvmCtx, MacContexts->ConfirmQueueNvmCtxSize);
     AT_PPRINTF("\r\n");
   }
-  // CtxUpdateStatus.Value = 0x00;
+  CtxUpdateStatus.Value = 0x00;
   LoRaMacStart();
 
   return NVMCTXMGMT_STATUS_SUCCESS;

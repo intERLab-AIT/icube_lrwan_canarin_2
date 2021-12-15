@@ -2046,6 +2046,19 @@ ATEerror_t AT_FrameCounter_set(const char *param)
   return AT_OK;
 }
 
+ATEerror_t AT_NetworkJoinStatus_get(const char *param)
+{
+  if (LmHandlerJoinStatus() == LORAMAC_HANDLER_SET)
+  {
+    print_d(1);
+  }
+  else
+  {
+    print_d(0);
+  }
+
+  return AT_OK;
+}
 /* USER CODE END PrFD */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

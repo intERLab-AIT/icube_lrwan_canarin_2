@@ -48,7 +48,13 @@
 
 #define AS923_MIN_RF_FREQUENCY            915000000
 #define AS923_MAX_RF_FREQUENCY            928000000
-
+#ifdef CANARIN_LBT
+// AS923_2 should have channels 125 kHz wide
+#define AS923_LBT_RX_BANDWIDTH            125000
+#undef AS923_RSSI_FREE_TH
+// make sure there are no other transmissions
+#define AS923_RSSI_FREE_TH				  -150
+#endif
 #elif ( REGION_AS923_DEFAULT_CHANNEL_PLAN == CHANNEL_PLAN_GROUP_AS923_2 )
 
 // Channel plan CHANNEL_PLAN_GROUP_AS923_2
@@ -1007,7 +1013,7 @@ LoRaMacStatus_t RegionAS923NextChannel( NextChanParams_t* nextChanParams, uint8_
 
     if( status == LORAMAC_STATUS_OK )
     {
-#if ( REGION_AS923_DEFAULT_CHANNEL_PLAN == CHANNEL_PLAN_GROUP_AS923_1_JP )
+#if ( REGION_AS923_DEFAULT_CHANNEL_PLAN == CHANNEL_PLAN_GROUP_AS923_1_JP || defined(CANARIN_LBT))
         // Executes the LBT algorithm when operating in Japan
         uint8_t channelNext = 0;
 

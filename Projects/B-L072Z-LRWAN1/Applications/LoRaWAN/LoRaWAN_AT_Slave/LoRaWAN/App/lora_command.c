@@ -515,6 +515,17 @@ static const struct ATCommand_s ATCommand[] =
     .set = AT_FrameCounter_set,
     .run = AT_return_error,
   },
+
+  {
+    .string = AT_NJS,
+    .size_string = sizeof(AT_NJS) - 1,
+#ifndef NO_HELP
+    .help_string = "AT"AT_NJS"=<D:D><CR>. Get the Network Join Status\r\n",
+#endif /* !NO_HELP */
+    .get = AT_NetworkJoinStatus_get,
+    .set = AT_return_error,
+    .run = AT_return_error,
+  },
 };
 
 static char circBuffer[CIRC_BUFF_SIZE];
