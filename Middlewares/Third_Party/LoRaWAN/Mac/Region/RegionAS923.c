@@ -53,7 +53,7 @@
 #define AS923_LBT_RX_BANDWIDTH            125000
 #undef AS923_RSSI_FREE_TH
 // make sure there are no other transmissions
-#define AS923_RSSI_FREE_TH				  -150
+#define AS923_RSSI_FREE_TH				  -85
 #endif
 #elif ( REGION_AS923_DEFAULT_CHANNEL_PLAN == CHANNEL_PLAN_GROUP_AS923_2 )
 

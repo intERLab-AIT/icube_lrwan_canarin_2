@@ -1981,9 +1981,11 @@ static int32_t isHex(char Char)
 ATEerror_t AT_Context_get(const char *param)
 {
   /* Request context from lorawan */
-  CanCtxMgmtStore();
+  if (CanCtxMgmtStore() == NVMCTXMGMT_STATUS_SUCCESS) {
+	  return AT_OK;
+  }
 
-  return AT_OK;
+  return AT_BUSY_ERROR;
 }
 
 ATEerror_t AT_Context_set(const char *param)
