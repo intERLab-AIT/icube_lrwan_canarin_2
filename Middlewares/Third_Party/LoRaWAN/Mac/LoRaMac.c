@@ -2626,10 +2626,32 @@ static void RemoveMacCommands( LoRaMacRxSlot_t rxSlot, LoRaMacFrameCtrl_t fCtrl,
     }
 }
 
+static void ShowMacParamsOffset( void )
+{
+	size_t offset, default_offset;
+
+	default_offset =  offsetof(LoRaMacNvmCtx_t, MacParamsDefaults.ChannelsDatarate);
+	offset =  offsetof(LoRaMacNvmCtx_t, MacParams.ChannelsDatarate);
+
+
+	APP_LOG(TS_OFF, VLEVEL_M, "DataRate Size %d, offset %d default %d\r\n", sizeof (int8_t), offset, default_offset);
+
+	default_offset =  offsetof(LoRaMacNvmCtx_t, MacParamsDefaults.UplinkDwellTime);
+	offset =  offsetof(LoRaMacNvmCtx_t, MacParams.UplinkDwellTime);
+
+	APP_LOG(TS_OFF, VLEVEL_M, "UplinkDwellTime Size %d, offset %d default %d\r\n", sizeof (int8_t), offset, default_offset);
+
+	default_offset =  offsetof(LoRaMacNvmCtx_t, MacParamsDefaults.DownlinkDwellTime);
+	offset =  offsetof(LoRaMacNvmCtx_t, MacParams.DownlinkDwellTime);
+
+	APP_LOG(TS_OFF, VLEVEL_M, "DownlinkDwellTime Size %d, offset %d default %d\r\n", sizeof (int8_t), offset, default_offset);
+}
+
 static void ResetMacParameters( void )
 {
     MacCtx.NvmCtx->NetworkActivation = ACTIVATION_TYPE_NONE;
 
+    ShowMacParamsOffset();
     // ADR counter
     MacCtx.NvmCtx->AdrAckCounter = 0;
 
